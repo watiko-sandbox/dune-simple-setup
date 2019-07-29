@@ -73,3 +73,22 @@ No path for module Mylib
 Unable to resolve a definition for /path/to/repo/bin/main.ml:6:27
   Good: file:///path/to/repo/bin/main.ml
 ```
+
+## maybe solution for reason-language-server
+
+I don't know enough dune and OCaml (Reason)...
+
+```diff
+diff --git a/util/JbuildFile.re b/util/JbuildFile.re
+index 25d5917..927445d 100644
+--- a/util/JbuildFile.re
++++ b/util/JbuildFile.re
+@@ -53,6 +53,7 @@ let includeRecursive = items => {
+ 
+ let getLibsAndBinaries = jbuildConfig => {
+   jbuildConfig->Belt.List.keepMap(item => switch item {
++    | `List([`Ident("library"), ...[`List([`Ident(_), _])] as library])
+     | `List([`Ident("library"), `List(library)])
+     | `List([`Ident("library"), ...library]) => {
+       let (public, private) = getNamedIdent(library)
+```
